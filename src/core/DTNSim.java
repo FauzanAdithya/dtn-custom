@@ -5,19 +5,13 @@
 package core;
 import gui.DTNSimGUI;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import ui.DTNSimTextUI;
+
+
 
 /**
  * Simulator's main class
@@ -57,7 +51,7 @@ public class DTNSim {
 		/* set US locale to parse decimals in consistent way */
 		java.util.Locale.setDefault(java.util.Locale.US);
 
-		debugger();
+		new CustomFunctions().debugger();
 
 		if (args.length > 0) {
 			if (args[0].equals(BATCH_MODE_FLAG)) {
@@ -105,19 +99,7 @@ public class DTNSim {
 
     }
 
-    private static String sendContract(String senderAddress, String senderPk, String contractAddress, String value){
-        String paramsBuilder = "sender_address=" +
-                senderAddress +
-                "&sender_pk=" +
-                senderPk +
-                "&address=" +
-                contractAddress +
-                "&value=" +
-                value;
 
-
-        return paramsBuilder;
-    }
 
     /**
 	 * Initializes Settings
@@ -250,77 +232,4 @@ public class DTNSim {
 		System.out.println(txt);
 	}
 
-	private static final String GET_URL = "http://127.0.0.1:5000/get_message/0x6945a73F33bB02526ed89cA5D95BA4312f0EE490";
-
-    private static void debugger (){
-        try {
-//			sendGET(GET_URL);
-            String sender = "0x8aF6cfD7beFadd50Cc79Fe8391049d50dF6867bE";
-            String privateKey = "31e2a52e3c31cf2896e07cf69cbee7aaf8711567f9677fa4ca54b20eb77b4436";
-            String contract = "0x6945a73F33bB02526ed89cA5D95BA4312f0EE490";
-            String teks = "yoyo";
-            String postParams = sendContract(sender,privateKey,contract,teks);
-            sendPOST("http://127.0.0.1:5000/set_message", postParams);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-	private static void sendGET(String reqlink) throws IOException {
-
-		URL obj = new URL(reqlink);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		con.setRequestMethod("GET");
-//		con.setRequestProperty("User-Agent", USER_AGENT);
-		int responseCode = con.getResponseCode();
-		System.out.println("GET Response Code :: " + responseCode);
-		if (responseCode == HttpURLConnection.HTTP_OK) { // success
-			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			String inputLine;
-			StringBuilder response = new StringBuilder();
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-			}
-			in.close();
-
-			// print result
-			System.out.println(response.toString());
-		} else {
-			System.out.println("GET request did not work.");
-		}
-
-	}
-
-	private static void sendPOST(String reqlink, String params) throws IOException {
-		URL obj = new URL(reqlink);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		con.setRequestMethod("POST");
-
-		// For POST only - START
-		con.setDoOutput(true);
-		OutputStream os = con.getOutputStream();
-		os.write(params.getBytes());
-		os.flush();
-		os.close();
-		// For POST only - END
-
-		int responseCode = con.getResponseCode();
-		System.out.println("POST Response Code :: " + responseCode);
-
-		if (responseCode == HttpURLConnection.HTTP_OK) { //success
-			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			String inputLine;
-			StringBuilder response = new StringBuilder();
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-			}
-			in.close();
-
-			// print result
-			System.out.println(response.toString());
-		} else {
-			System.out.println("POST request did not work.");
-		}
-	}
 }
