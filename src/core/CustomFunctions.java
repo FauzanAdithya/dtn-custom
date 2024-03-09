@@ -22,10 +22,10 @@ public class CustomFunctions {
 
     public void debugger (){
         try {
-//			sendGET(server_url);
+			sendGET(server_url);
 
             String postParams = sendContract(sender,privateKey,contract,teks);
-            sendPOST("http://127.0.0.1:5000/set_message", postParams);
+//            sendPOST("http://127.0.0.1:5000/set_message", postParams);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
