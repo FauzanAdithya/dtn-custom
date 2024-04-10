@@ -49,9 +49,11 @@ public class DTNSim {
 		int guiIndex = 0;
 
 		/* set US locale to parse decimals in consistent way */
+		/* set US locale to parse decimals in consistent way */
 		java.util.Locale.setDefault(java.util.Locale.US);
 
-		new CustomFunctions().debugger();
+//		new CustomFunctions().debugger();
+		System.out.println("START");
 
 		if (args.length > 0) {
 			if (args[0].equals(BATCH_MODE_FLAG)) {

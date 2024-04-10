@@ -10,5 +10,5 @@ public final class Constants {
 	private Constants() {}
 
 	/** Enable/disable debug mode. Used to compile out debug logging etc. */
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 }

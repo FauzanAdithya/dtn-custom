@@ -7,6 +7,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
+
 import core.CustomConstants;
 
 public class CustomFunctions {
@@ -101,6 +104,30 @@ public class CustomFunctions {
 
 
         return paramsBuilder;
+    }
+
+    public static String generateRandomString(int minLength, int maxLength) {
+        // Set the range for length of the random string
+        int length = minLength + new Random().nextInt(maxLength - minLength + 1);
+
+        // Define characters allowed in the random string
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        // Create a StringBuilder to store the random string
+        StringBuilder sb = new StringBuilder();
+
+        // Generate random characters to form the string
+        for (int i = 0; i < length; i++) {
+            int index = new Random().nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+
+        // Convert StringBuilder to String and return
+        return sb.toString();
+    }
+
+    public static int calculateByteSize(String text) {
+        return text.getBytes(StandardCharsets.UTF_8).length;
     }
 
 }

@@ -9,6 +9,8 @@ import java.util.Random;
 import core.Settings;
 import core.SettingsError;
 
+import core.CustomFunctions;
+
 /**
  * Message creation -external events generator. Creates uniformly distributed
  * message creation patterns whose message size and inter-message intervals can
@@ -200,9 +202,19 @@ public class MessageEventGenerator implements EventQueue {
 		interval = drawNextEventTimeDiff();
 
 		/* Create event and advance to next event */
-		MessageCreateEvent mce = new MessageCreateEvent(from, to, this.getID(),
-				msgSize, responseSize, this.nextEventsTime);
+//		MessageCreateEvent mce = new MessageCreateEvent(from, to, this.getID(),
+//				msgSize, responseSize, this.nextEventsTime);
+
+
+// FUNGSI CUSTOM UNTUK MESSAGE CUSTOM
+		String pesannya = this.getID() + ": " + CustomFunctions.generateRandomString(2, 5);
+		int ukurannya = CustomFunctions.calculateByteSize(pesannya);
+
+		MessageCreateEvent mce = new MessageCreateEvent(from, to, pesannya,
+				ukurannya, responseSize, this.nextEventsTime);
 		this.nextEventsTime += interval;
+
+		System.out.println("test message event generator");
 
 		if (this.msgTime != null && this.nextEventsTime > this.msgTime[1]) {
 			/* next event would be later than the end time */

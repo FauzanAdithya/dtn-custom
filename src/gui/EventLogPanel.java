@@ -245,7 +245,7 @@ public class EventLogPanel extends JPanel
 			(host2!= null ? (HOST_DELIM + host2) : "") +
 			(message!=null ? " " + message : "");
 
-		System.out.println(descString);
+//		System.out.println(descString);
 
 		if (regExp != null && !descString.matches(regExp)){
 			return;	// description doesn't match defined regular expression
