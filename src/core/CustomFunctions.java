@@ -1,16 +1,18 @@
 package core;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.Random;
 
 import core.CustomConstants;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class CustomFunctions {
 
@@ -130,4 +132,42 @@ public class CustomFunctions {
         return text.getBytes(StandardCharsets.UTF_8).length;
     }
 
+    public static String loadKata(){
+        JSONParser parser = new JSONParser();
+        JSONArray kata;
+        String kataTerpilih = null;
+        Random rand = new Random();
+
+        try {
+            File file = new File("tambahan/kata.json");
+            Object obj = parser.parse(new FileReader(file));
+
+            JSONObject jsonObject =  (JSONObject) obj;
+
+
+            kata = (JSONArray) jsonObject.get("kata");
+            int jmlKata = kata.size();
+            System.out.println("RANGE : " + jmlKata);
+            int angkaRandom  = rand.nextInt(jmlKata);
+            int angkaIterasi = 0;
+            Iterator<String> iterator = kata.iterator();
+            while (iterator.hasNext()) {
+                kataTerpilih = iterator.next();
+                System.out.println(kataTerpilih);
+
+                if(angkaIterasi == angkaRandom){
+                 break;
+                }
+                angkaIterasi++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        return kataTerpilih;
+    }
 }

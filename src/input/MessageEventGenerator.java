@@ -207,14 +207,14 @@ public class MessageEventGenerator implements EventQueue {
 
 
 // FUNGSI CUSTOM UNTUK MESSAGE CUSTOM
-		String pesannya = this.getID() + ": " + CustomFunctions.generateRandomString(2, 5);
+		String pesannya = this.getID() + ": " + CustomFunctions.loadKata();
 		int ukurannya = CustomFunctions.calculateByteSize(pesannya);
 
 		MessageCreateEvent mce = new MessageCreateEvent(from, to, pesannya,
 				ukurannya, responseSize, this.nextEventsTime);
 		this.nextEventsTime += interval;
 
-		System.out.println("test message event generator");
+//		System.out.println("test message event generator");
 
 		if (this.msgTime != null && this.nextEventsTime > this.msgTime[1]) {
 			/* next event would be later than the end time */
