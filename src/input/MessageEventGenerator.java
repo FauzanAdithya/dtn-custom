@@ -205,7 +205,6 @@ public class MessageEventGenerator implements EventQueue {
 //		MessageCreateEvent mce = new MessageCreateEvent(from, to, this.getID(),
 //				msgSize, responseSize, this.nextEventsTime);
 
-
 // FUNGSI CUSTOM UNTUK MESSAGE CUSTOM
 		String pesannya = this.getID() + ": " + CustomFunctions.loadKata();
 		int ukurannya = CustomFunctions.calculateByteSize(pesannya);

@@ -144,7 +144,6 @@ public class CustomFunctions {
 
             JSONObject jsonObject =  (JSONObject) obj;
 
-
             kata = (JSONArray) jsonObject.get("kata");
             int jmlKata = kata.size();
             System.out.println("RANGE : " + jmlKata);
