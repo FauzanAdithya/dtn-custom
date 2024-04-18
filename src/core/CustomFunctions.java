@@ -129,6 +129,14 @@ public class CustomFunctions {
         return paramsBuilder;
     }
 
+    public static String getContract(String senderAddress, String txHash){
+
+        return "sender_address=" +
+                senderAddress +
+                "&tx_hash=" +
+                txHash;
+    }
+
     public static String generateRandomString(int minLength, int maxLength) {
         // Set the range for length of the random string
         int length = minLength + new Random().nextInt(maxLength - minLength + 1);
@@ -167,13 +175,13 @@ public class CustomFunctions {
 
             kata = (JSONArray) jsonObject.get("kata");
             int jmlKata = kata.size();
-            System.out.println("RANGE : " + jmlKata);
+//            System.out.println("RANGE : " + jmlKata);
             int angkaRandom  = rand.nextInt(jmlKata);
             int angkaIterasi = 0;
             Iterator<String> iterator = kata.iterator();
             while (iterator.hasNext()) {
                 kataTerpilih = iterator.next();
-                System.out.println(kataTerpilih);
+//                System.out.println(kataTerpilih);
 
                 if(angkaIterasi == angkaRandom){
                  break;

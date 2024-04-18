@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -19,12 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import core.ConnectionListener;
-import core.DTNHost;
-import core.Message;
-import core.MessageListener;
-import core.Settings;
-import core.SimClock;
+import core.*;
+
 
 /**
  * Event log panel where log entries are displayed.
@@ -32,6 +29,7 @@ import core.SimClock;
 @SuppressWarnings("serial")
 public class EventLogPanel extends JPanel
 	implements ConnectionListener, MessageListener, ActionListener {
+	CustomConstants myConstant = new CustomConstants();
 
 	/** Event log panel settings namespace ({@value}) */
 	public static final String EL_PANEL_NS = "GUI.EventLogPanel";
@@ -281,8 +279,24 @@ public class EventLogPanel extends JPanel
 
 	public void messageTransferred(Message m, DTNHost from, DTNHost to,
 			boolean firstDelivery) {
+
+
+		String getMessage = "-";
+		String postParams = CustomFunctions.getContract(myConstant.nodeRx, m.toString());
+
+		m.updateProperty("id",getMessage);
+		System.out.print("MESSAGE : ");
+		System.out.println(m.toString());
+
+
+		try {
+			getMessage = CustomFunctions.sendPOST("http://127.0.0.1:5000/get_message_hash", postParams);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		if (firstDelivery) {
 			processEvent(msgDeliveredCheck, "Message delivered", from, to, m);
+
 		}
 		else if (to == m.getTo()) {
 			processEvent(msgDeliveredCheck, "Message delivered again",
