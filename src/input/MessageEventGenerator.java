@@ -4,12 +4,14 @@
  */
 package input;
 
+import java.io.IOException;
 import java.util.Random;
 
 import core.Settings;
 import core.SettingsError;
 
 import core.CustomFunctions;
+import core.CustomConstants;
 
 /**
  * Message creation -external events generator. Creates uniformly distributed
@@ -17,6 +19,8 @@ import core.CustomFunctions;
  * be configured.
  */
 public class MessageEventGenerator implements EventQueue {
+
+	CustomConstants myConstant = new CustomConstants();
 	/** Message size range -setting id ({@value}). Can be either a single
 	 * value or a range (min, max) of uniformly distributed random values.
 	 * Defines the message size (bytes). */
@@ -207,9 +211,17 @@ public class MessageEventGenerator implements EventQueue {
 
 // FUNGSI CUSTOM UNTUK MESSAGE CUSTOM
 		String pesannya = this.getID() + ": " + CustomFunctions.loadKata();
-		int ukurannya = CustomFunctions.calculateByteSize(pesannya);
+        String postParams = CustomFunctions.sendContract(myConstant.nodeTx,myConstant.nodeTxPk,myConstant.contract,pesannya);
+		String getHash = "-";
+		try {
+            getHash = CustomFunctions.sendPOST("http://127.0.0.1:5000/set_message", postParams);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-		MessageCreateEvent mce = new MessageCreateEvent(from, to, pesannya,
+        int ukurannya = CustomFunctions.calculateByteSize(getHash);
+
+		MessageCreateEvent mce = new MessageCreateEvent(from, to, getHash,
 				ukurannya, responseSize, this.nextEventsTime);
 		this.nextEventsTime += interval;
 

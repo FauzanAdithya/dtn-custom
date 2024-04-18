@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Random;
 
-import core.CustomConstants;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,24 +17,23 @@ public class CustomFunctions {
 
     CustomConstants myConstant = new CustomConstants();
 
-    String sender = myConstant.sender;
-    String privateKey = myConstant.privateKey;
-    String contract = myConstant.contract;
     String teks = myConstant.teks;
 
     String server_url = myConstant.server_url;
 
     public void debugger (){
-        try {
-			sendGET(server_url);
-
-            String postParams = sendContract(sender,privateKey,contract,teks);
-//            sendPOST("http://127.0.0.1:5000/set_message", postParams);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+////			sendGET(server_url);
+//
+//            String postParams = sendContract(myConstant.nodeTx,myConstant.nodeTxPk,myConstant.contract,teks);
+////            sendPOST("http://127.0.0.1:5000/set_message", postParams);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
-    private static void sendGET(String reqlink) throws IOException {
+    private static String sendGET(String reqlink) throws IOException {
+
+        String responMsg = "empty";
 
         URL obj = new URL(reqlink);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -54,14 +52,22 @@ public class CustomFunctions {
             in.close();
 
             // print result
-            System.out.println(response.toString());
+
+            responMsg = response.toString();
+            System.out.println(responMsg);
+
+
         } else {
             System.out.println("GET request did not work.");
+//            responMsg = ""
         }
 
+        return responMsg;
     }
 
-    private static void sendPOST(String reqlink, String params) throws IOException {
+    public static String sendPOST(String reqlink, String params) throws IOException {
+
+        String responStr = "empty";
         URL obj = new URL(reqlink);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("POST");
@@ -88,13 +94,26 @@ public class CustomFunctions {
             in.close();
 
             // print result
-            System.out.println(response.toString());
+            responStr = response.toString();
+            JSONParser parser = new JSONParser();
+            try {
+                JSONObject json = (JSONObject) parser.parse(responStr);
+
+            } catch (ParseException e) {
+                responStr = "error json parsing";
+                throw new RuntimeException(e);
+
+            }
+            System.out.println(responStr);
+
         } else {
             System.out.println("POST request did not work.");
+            responStr = "post request did not work";
         }
+        return responStr;
     }
 
-    private static String sendContract(String senderAddress, String senderPk, String contractAddress, String value){
+    public static String sendContract(String senderAddress, String senderPk, String contractAddress, String value){
         String paramsBuilder = "sender_address=" +
                 senderAddress +
                 "&sender_pk=" +
