@@ -97,7 +97,9 @@ public class CustomFunctions {
             responStr = response.toString();
             JSONParser parser = new JSONParser();
             try {
-                JSONObject json = (JSONObject) parser.parse(responStr);
+                JSONObject jsonObj = (JSONObject) parser.parse(responStr);
+                responStr = jsonObj.get("message_text").toString();
+
 
             } catch (ParseException e) {
                 responStr = "error json parsing";
