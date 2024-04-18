@@ -40,7 +40,7 @@ public class CustomFunctions {
         con.setRequestMethod("GET");
 //		con.setRequestProperty("User-Agent", USER_AGENT);
         int responseCode = con.getResponseCode();
-        System.out.println("GET Response Code :: " + responseCode);
+//        System.out.println("GET Response Code :: " + responseCode);
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -54,7 +54,7 @@ public class CustomFunctions {
             // print result
 
             responMsg = response.toString();
-            System.out.println(responMsg);
+//            System.out.println(responMsg);
 
 
         } else {
@@ -81,7 +81,7 @@ public class CustomFunctions {
         // For POST only - END
 
         int responseCode = con.getResponseCode();
-        System.out.println("POST Response Code :: " + responseCode);
+//        System.out.println("POST Response Code :: " + responseCode);
 
         if (responseCode == HttpURLConnection.HTTP_OK) { //success
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -106,7 +106,7 @@ public class CustomFunctions {
                 throw new RuntimeException(e);
 
             }
-            System.out.println(responStr);
+//            System.out.println(responStr);
 
         } else {
             System.out.println("POST request did not work.");

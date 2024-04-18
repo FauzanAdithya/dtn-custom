@@ -283,19 +283,22 @@ public class EventLogPanel extends JPanel
 
 		String getMessage = "-";
 		String postParams = CustomFunctions.getContract(myConstant.nodeRx, m.toString());
-
-		m.updateProperty("id",getMessage);
-		System.out.print("MESSAGE : ");
-		System.out.println(m.toString());
-
-
 		try {
 			getMessage = CustomFunctions.sendPOST("http://127.0.0.1:5000/get_message_hash", postParams);
+			m.updateProperty("id",getMessage );
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+
+
+		System.out.print("PESAN : ");
+
+		System.out.println(m);
+
+
+
 		if (firstDelivery) {
-			processEvent(msgDeliveredCheck, "Message delivered", from, to, m);
+			processEvent(msgDeliveredCheck, "Message delivered", from, to,m);
 
 		}
 		else if (to == m.getTo()) {
