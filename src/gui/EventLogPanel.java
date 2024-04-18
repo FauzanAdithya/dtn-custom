@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -285,28 +286,30 @@ public class EventLogPanel extends JPanel
 		String postParams = CustomFunctions.getContract(myConstant.nodeRx, m.toString());
 		try {
 			getMessage = CustomFunctions.sendPOST("http://127.0.0.1:5000/get_message_hash", postParams);
-			m.updateProperty("id",getMessage );
+//			m.updateProperty("id",getMessage );
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 
 
 		System.out.print("PESAN : ");
+        Message receivedMsg = new Message(m.getFrom(), m.getTo(), getMessage, m.getSize());
 
-		System.out.println(m);
+
+		System.out.println(receivedMsg);
 
 
 
 		if (firstDelivery) {
-			processEvent(msgDeliveredCheck, "Message delivered", from, to,m);
+			processEvent(msgDeliveredCheck, "Message delivered", from, to,receivedMsg);
 
 		}
 		else if (to == m.getTo()) {
 			processEvent(msgDeliveredCheck, "Message delivered again",
-					from, to, m);
+					from, to, receivedMsg);
 		}
 		else {
-			processEvent(msgRelayCheck, "Message relayed", from, to, m);
+			processEvent(msgRelayCheck, "Message relayed", from, to, receivedMsg);
 		}
 	}
 
