@@ -285,26 +285,24 @@ public class EventLogPanel extends JPanel
 
 		String pesan = (String) m.getProperty("pesan");
 
+        if(pesan.length() > 3){
+            String postParams = CustomFunctions.getContract(myConstant.nodeRx, pesan);
 
-		String postParams = CustomFunctions.getContract(myConstant.nodeRx, pesan);
-		try {
-			pesan = CustomFunctions.sendPOST("http://127.0.0.1:5000/get_message_hash", postParams);
-			m.updateProperty("pesan", pesan);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+            try {
+                pesan = CustomFunctions.sendPOST("http://127.0.0.1:5000/get_message_hash", postParams);
+                m.updateProperty("pesan", pesan);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-		System.out.print("Pesan : ");
-		System.out.println((String) m.getProperty("pesan"));
-
-
+            System.out.print("Pesan : ");
+            System.out.println((String) m.getProperty("pesan"));
+        }
 
 
 
 //        Message receivedMsg = new Message(m.getFrom(), m.getTo(), getMessage, m.getSize());
 //		System.out.println(receivedMsg);
-
-
 
 		if (firstDelivery) {
 			processEvent(msgDeliveredCheck, "Message delivered", from, to,m);
