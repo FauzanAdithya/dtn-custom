@@ -206,23 +206,25 @@ public class MessageEventGenerator implements EventQueue {
 		interval = drawNextEventTimeDiff();
 
 		/* Create event and advance to next event */
-//		MessageCreateEvent mce = new MessageCreateEvent(from, to, this.getID(),
-//				msgSize, responseSize, this.nextEventsTime);
+		MessageCreateEvent mce = new MessageCreateEvent(from, to, this.getID(),
+				msgSize, responseSize, this.nextEventsTime);
 
 // FUNGSI CUSTOM UNTUK MESSAGE CUSTOM
-		String pesannya = this.getID() + ": " + CustomFunctions.loadKata();
-        String postParams = CustomFunctions.sendContract(myConstant.nodeTx,myConstant.nodeTxPk,myConstant.contract,pesannya);
-		String getHash = "-";
-		try {
-            getHash = CustomFunctions.sendPOST("http://127.0.0.1:5000/set_message", postParams);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//		String pesannya = this.getID() + ": " + CustomFunctions.loadKata();
+//        String postParams = CustomFunctions.sendContract(myConstant.nodeTx,myConstant.nodeTxPk,myConstant.contract,pesannya);
+//		String getHash = "-";
+//		try {
+//            getHash = CustomFunctions.sendPOST("http://127.0.0.1:5000/set_message", postParams);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        int ukurannya = CustomFunctions.calculateByteSize(getHash);
+//
+//		MessageCreateEvent mce = new MessageCreateEvent(from, to, getHash,
+//				ukurannya, responseSize, this.nextEventsTime);
 
-        int ukurannya = CustomFunctions.calculateByteSize(getHash);
 
-		MessageCreateEvent mce = new MessageCreateEvent(from, to, getHash,
-				ukurannya, responseSize, this.nextEventsTime);
 		this.nextEventsTime += interval;
 
 //		System.out.println("test message event generator");

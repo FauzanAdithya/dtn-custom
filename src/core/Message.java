@@ -4,11 +4,15 @@
  */
 package core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import core.CustomFunctions;
+import core.CustomConstants;
 
 /**
  * A message that is created at a node or passed between nodes.
@@ -63,10 +67,24 @@ public class Message implements Comparable<Message> {
 	 * @param size Size of the message (in bytes)
 	 */
 	public Message(DTNHost from, DTNHost to, String id, int size) {
+
+		CustomConstants myConstant = new CustomConstants();
+		String pesannya = CustomFunctions.loadKata();
+		String postParams = CustomFunctions.sendContract(myConstant.nodeTx,myConstant.nodeTxPk,myConstant.contract,pesannya);
+		String getHash = "-";
+		try {
+			getHash = CustomFunctions.sendPOST("http://127.0.0.1:5000/set_message", postParams);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		int ukurannya = CustomFunctions.calculateByteSize(getHash);
+
 		this.from = from;
 		this.to = to;
 		this.id = id;
-		this.size = size;
+//		this.size = size;
+		this.size = ukurannya;
 		this.path = new ArrayList<DTNHost>();
 		this.uniqueId = nextUniqueId;
 
@@ -76,7 +94,11 @@ public class Message implements Comparable<Message> {
 		this.responseSize = 0;
 		this.requestMsg = null;
 		this.properties = null;
+
+		this.addProperty("pesan", getHash);
 		this.appID = null;
+
+
 
 		Message.nextUniqueId++;
 		addNodeOnPath(from);

@@ -177,6 +177,8 @@ public class EventLogPanel extends JPanel
 		}
 		if (message != null) {
 			addInfoButton(eventPane, message, MSG_PROP);
+			String pesannya = (String) message.getProperty("pesan");
+			addInfoButton(eventPane, pesannya, MSG_PROP);
 		}
 
 		if (highlight) {
@@ -281,35 +283,39 @@ public class EventLogPanel extends JPanel
 	public void messageTransferred(Message m, DTNHost from, DTNHost to,
 			boolean firstDelivery) {
 
+		String pesan = (String) m.getProperty("pesan");
 
-		String getMessage = "-";
-		String postParams = CustomFunctions.getContract(myConstant.nodeRx, m.toString());
+
+		String postParams = CustomFunctions.getContract(myConstant.nodeRx, pesan);
 		try {
-			getMessage = CustomFunctions.sendPOST("http://127.0.0.1:5000/get_message_hash", postParams);
-//			m.updateProperty("id",getMessage );
+			pesan = CustomFunctions.sendPOST("http://127.0.0.1:5000/get_message_hash", postParams);
+			m.updateProperty("pesan", pesan);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 
+		System.out.print("Pesan : ");
+		System.out.println((String) m.getProperty("pesan"));
 
-		System.out.print("PESAN : ");
-        Message receivedMsg = new Message(m.getFrom(), m.getTo(), getMessage, m.getSize());
 
 
-		System.out.println(receivedMsg);
+
+
+//        Message receivedMsg = new Message(m.getFrom(), m.getTo(), getMessage, m.getSize());
+//		System.out.println(receivedMsg);
 
 
 
 		if (firstDelivery) {
-			processEvent(msgDeliveredCheck, "Message delivered", from, to,receivedMsg);
+			processEvent(msgDeliveredCheck, "Message delivered", from, to,m);
 
 		}
 		else if (to == m.getTo()) {
 			processEvent(msgDeliveredCheck, "Message delivered again",
-					from, to, receivedMsg);
+					from, to, m);
 		}
 		else {
-			processEvent(msgRelayCheck, "Message relayed", from, to, receivedMsg);
+			processEvent(msgRelayCheck, "Message relayed", from, to, m);
 		}
 	}
 
