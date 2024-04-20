@@ -166,28 +166,53 @@ public class EventLogPanel extends JPanel
 		label.setFont(font);
 		eventPane.add(label);
 
+		String csep = ";";
+		String logBuffer = String.format("% 9.1f; %s ;", SimClock.getTime(), description);
+
 		if (host1 != null) {
 			addInfoButton(eventPane,host1,HOST_PROP);
+			logBuffer += host1;
 		}
+
 		if (host2 != null) {
 			JLabel betweenLabel = new JLabel(HOST_DELIM);
 			betweenLabel.setFont(font);
 			eventPane.add(betweenLabel);
 			addInfoButton(eventPane,host2,HOST_PROP);
+			logBuffer += (HOST_DELIM + host2);
+		}else{
+			logBuffer += "-";
 		}
+		logBuffer += csep;
+
 		if (message != null) {
 			addInfoButton(eventPane, message, MSG_PROP);
+			logBuffer += ("(" + message + "): ");
+
 			String pesannya = (String) message.getProperty("pesan");
 			addInfoButton(eventPane, pesannya, MSG_PROP);
+			logBuffer += pesannya;
+		}else{
+			logBuffer += "-";
 		}
+		logBuffer += csep;
+		logBuffer += "\n";
+
 
 		if (highlight) {
 			eventPane.setBackground(HIGHLIGHT_BG_COLOR);
 		}
 
 		eventPanes.add(eventPane);
+		System.out.print(logBuffer);
+        try {
+            CustomFunctions.addToLog(logBuffer, "anu.csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-		// if the log is full, remove oldest entries first
+
+        // if the log is full, remove oldest entries first
 		if (this.eventPanes.size() > maxNrofEvents) {
 			eventPanes.remove(0);
 		}
@@ -295,14 +320,11 @@ public class EventLogPanel extends JPanel
                 throw new RuntimeException(e);
             }
 
-            System.out.print("Pesan : ");
-            System.out.println((String) m.getProperty("pesan"));
+
         }
+		System.out.print("Pesan : ");
+		System.out.println((String) m.getProperty("pesan"));
 
-
-
-//        Message receivedMsg = new Message(m.getFrom(), m.getTo(), getMessage, m.getSize());
-//		System.out.println(receivedMsg);
 
 		if (firstDelivery) {
 			processEvent(msgDeliveredCheck, "Message delivered", from, to,m);

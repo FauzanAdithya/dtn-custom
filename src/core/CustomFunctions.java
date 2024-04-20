@@ -198,4 +198,12 @@ public class CustomFunctions {
         
         return kataTerpilih;
     }
+
+    public static void addToLog(String line, String fileName)
+            throws IOException {
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
+        writer.append(line);
+        writer.close();
+    }
 }
