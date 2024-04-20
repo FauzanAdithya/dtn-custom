@@ -66,6 +66,9 @@ public class Message implements Comparable<Message> {
 	 * 	will be the same for all replicates of the message)
 	 * @param size Size of the message (in bytes)
 	 */
+
+	CustomConstants myConstant = new CustomConstants();
+
 	public Message(DTNHost from, DTNHost to, String id, int size) {
 
 
@@ -85,7 +88,7 @@ public class Message implements Comparable<Message> {
 		this.requestMsg = null;
 		this.properties = null;
 
-		if(nextUniqueId % 2 == 1) {
+		if((nextUniqueId % 2 == 1 && myConstant.bcMode == 1 ) || myConstant.bcMode == 2) {
 			CustomConstants myConstant = new CustomConstants();
 			String pesannya = CustomFunctions.loadKata();
 			String postParams = CustomFunctions.sendContract(myConstant.nodeTx, myConstant.nodeTxPk, myConstant.contract, pesannya);
