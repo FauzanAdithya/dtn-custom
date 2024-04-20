@@ -199,10 +199,20 @@ public class CustomFunctions {
         return kataTerpilih;
     }
 
-    public static void addToLog(String line, String fileName)
+    public static void addToLog(String line, String filePath)
             throws IOException {
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
+        File file = new File(filePath);
+
+        /* This logic will make sure that the file
+         * gets created if it is not present at the
+         * specified location*/
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        FileWriter fw = new FileWriter(file,true);
+        BufferedWriter writer = new BufferedWriter(fw);
         writer.append(line);
         writer.close();
     }

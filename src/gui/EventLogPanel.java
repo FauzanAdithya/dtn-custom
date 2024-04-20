@@ -205,8 +205,9 @@ public class EventLogPanel extends JPanel
 
 		eventPanes.add(eventPane);
 		System.out.print(logBuffer);
+
         try {
-            CustomFunctions.addToLog(logBuffer, "anu.csv");
+            CustomFunctions.addToLog(logBuffer, myConstant.saveLogDirectory );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
