@@ -17,9 +17,7 @@ public class CustomFunctions {
 
     CustomConstants myConstant = new CustomConstants();
 
-    String teks = myConstant.teks;
 
-    String server_url = myConstant.server_url;
 
     public void debugger (){
 //        try {
