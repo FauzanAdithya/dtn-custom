@@ -87,26 +87,7 @@ public class Message implements Comparable<Message> {
 		this.responseSize = 0;
 		this.requestMsg = null;
 		this.properties = null;
-
-		if((nextUniqueId % 2 == 1 && myConstant.bcMode == 1 ) || myConstant.bcMode == 2) {
-			CustomConstants myConstant = new CustomConstants();
-			String pesannya = CustomFunctions.loadKata();
-			String postParams = CustomFunctions.sendContract(myConstant.nodeTx, myConstant.nodeTxPk, myConstant.contract, pesannya);
-			String getHash = "-";
-			try {
-				getHash = CustomFunctions.sendPOST("http://127.0.0.1:5000/set_message", postParams);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-			int ukurannya = CustomFunctions.calculateByteSize(getHash);
-
-			this.size = ukurannya;
-			this.addProperty("pesan", getHash);
-		}else{
-			this.size = size;
-			this.addProperty("pesan", id);
-		}
+		this.size = size;
 
 		this.appID = null;
 
@@ -156,6 +137,10 @@ public class Message implements Comparable<Message> {
 	public int getSize() {
 		return this.size;
 	}
+	public void setSize(int size) {
+		this.size = size;
+	}
+
 
 	/**
 	 * Adds a new node on the list of nodes this message has passed

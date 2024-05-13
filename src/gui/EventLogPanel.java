@@ -342,6 +342,30 @@ public class EventLogPanel extends JPanel
 	}
 
 	public void newMessage(Message m) {
+
+		int msgId = Integer.parseInt(m.getId().substring(1));
+
+
+		if((msgId % 2 == 1 && myConstant.bcMode == 1 ) || myConstant.bcMode == 2) {
+//		if( myConstant.bcMode == 2) {
+			CustomConstants myConstant = new CustomConstants();
+			String pesannya = CustomFunctions.loadKata();
+			String postParams = CustomFunctions.sendContract(myConstant.nodeTx, myConstant.nodeTxPk, myConstant.contract, pesannya);
+			String getHash = "-";
+			try {
+				getHash = CustomFunctions.sendPOST("http://127.0.0.1:5000/set_message", postParams);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+			int ukurannya = CustomFunctions.calculateByteSize(getHash);
+
+			m.setSize(ukurannya);
+			m.addProperty("pesan", getHash);
+		}else{
+			m.addProperty("pesan", m.getId());
+		}
+		System.out.println(m.getId());
 		processEvent(msgCreateCheck, "Message created", m.getFrom(), null, m);
 	}
 
