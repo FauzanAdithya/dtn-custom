@@ -318,7 +318,7 @@ public class EventLogPanel extends JPanel
 
 		if (firstDelivery) {
 			if(pesan.length() > 2){
-				String postParams = CustomFunctions.getContract(myConstant.nodeRx, pesan);
+				String postParams = CustomFunctions.getContract(myConstant.nodeRx, myConstant.nodeTx, pesan);
 
 				try {
 					pesan = CustomFunctions.sendPOST("http://127.0.0.1:5000/get_message_hash", postParams);
@@ -350,7 +350,7 @@ public class EventLogPanel extends JPanel
 //		if( myConstant.bcMode == 2) {
 			CustomConstants myConstant = new CustomConstants();
 			String pesannya = CustomFunctions.loadKata();
-			String postParams = CustomFunctions.sendContract(myConstant.nodeTx, myConstant.nodeTxPk, myConstant.contract, pesannya);
+			String postParams = CustomFunctions.sendContract(myConstant.nodeRx, myConstant.nodeTx, myConstant.nodeTxPk, myConstant.contract, pesannya);
 			String getHash = "-";
 			try {
 				getHash = CustomFunctions.sendPOST("http://127.0.0.1:5000/set_message", postParams);

@@ -102,8 +102,10 @@ public class CustomFunctions {
         return responStr;
     }
 
-    public static String sendContract(String senderAddress, String senderPk, String contractAddress, String value){
-        String paramsBuilder = "sender_address=" +
+    public static String sendContract(String receiverAddress, String senderAddress, String senderPk, String contractAddress, String value){
+        String paramsBuilder = "receiver_address=" +
+                receiverAddress +
+                "&sender_address=" +
                 senderAddress +
                 "&sender_pk=" +
                 senderPk +
@@ -116,10 +118,12 @@ public class CustomFunctions {
         return paramsBuilder;
     }
 
-    public static String getContract(String senderAddress, String txHash){
+    public static String getContract(String receiverAddress, String senderAddress, String txHash){
 
         return "sender_address=" +
                 senderAddress +
+                "&receiver_address=" +
+                receiverAddress +
                 "&tx_hash=" +
                 txHash;
     }
