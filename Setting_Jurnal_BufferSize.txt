@@ -1,0 +1,94 @@
+# Default settings for the simulation
+
+## Scenario settings
+Scenario.simulateConnections = true
+Scenario.updateInterval = 1.0
+#Scenario.endTime = 21600
+Scenario.nrofHostGroups = 1
+
+
+# "Bluetooth" interface for all nodes
+btInterface.type = SimpleBroadcastInterface
+# Transmit speed of 2 Mbps = 250kBps
+btInterface.transmitSpeed = 250k
+btInterface.transmitRange = 10
+
+
+############################### Common settings for all groups
+Scenario.name = Sidang_Tesis Blockchain - 250 Nodes - MaxPropRouter
+Scenario.endTime = 500
+Group.movementModel = MapBasedMovement
+Group.router = MaxPropRouter
+Group.bufferSize = 5M
+Group.nrofHosts = 250
+#########################
+#EpidemicRouter
+#SprayAndWaitRouter
+#MaxPropRouter
+#FirstContactRouter
+#DirectDeliveryRouter
+##############################
+
+# All nodes have the bluetooth interface
+Group.nrofInterfaces = 1
+Group.interface1 = btInterface
+#mencari setting bluetooth
+# Walking speeds
+Group.speed = 0.5, 1.5
+# Message TTL of 300 minutes (5 hours)
+Group.msgTtl = 30
+#Group.nrofHosts = 100
+Group.groupID = n
+
+#############################
+## Message creation parameters
+Events.nrof = 1
+Events1.class = MessageEventGenerator
+Events1.interval = 25,35
+Events1.size = 500k,1M
+Events1.hosts = 0,50
+Events1.prefix = M
+
+#####################################
+## Movement model settings
+MovementModel.rngSeed = 2
+MovementModel.worldSize = 3000, 2000
+
+
+MapBasedMovement.nrofMapFiles = 1
+MapBasedMovement.mapFile1 = data/belajar21.wkt
+
+SprayAndWaitRouter.nrofCopies = 10
+SprayAndWaitRouter.binaryMode = true
+
+## Reports - all report names have to be valid report classes
+# how many reports to load
+Report.nrofReports = 3
+Report.reportDir = reports/Tesis/Bab44/Assestment
+#Report.reportDir = reports/Tesis/Bab4/WithoutBC
+
+#Report.reportDir = reports/Persiapan Tesis/Eksperimen/Buffer Size
+#Report.reportDir = reports/Persiapan Tesis/Buffer Size
+#Report.reportDir = reports/Persiapan Tesis/Eksperimen
+# Report classes to load
+Report.report1 = MessageStatsReport
+Report.report2 = EventLogReport
+Report.report3 = MessageReport
+
+## Optimization settings -- these affect the speed of the simulation
+## see World class for details.
+Optimization.cellSizeMult = 6
+Optimization.randomizeUpdateOrder = true
+
+## GUI settings
+# GUI underlay image settings
+GUI.UnderlayImage.fileName = data/Tel-U.png
+# Image offset in pixels (x, y)
+GUI.UnderlayImage.offset = 64, 20
+# Scaling factor for the image
+GUI.UnderlayImage.scale = 4.75
+# Image rotation (radians)
+GUI.UnderlayImage.rotate = -0.015
+
+# how many events to show in the log panel (default = 30)
+GUI.EventLogPanel.nrofEvents = 100

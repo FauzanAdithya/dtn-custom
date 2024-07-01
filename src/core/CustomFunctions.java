@@ -18,17 +18,6 @@ public class CustomFunctions {
     CustomConstants myConstant = new CustomConstants();
 
 
-
-    public void debugger (){
-//        try {
-////			sendGET(server_url);
-//
-//            String postParams = sendContract(myConstant.nodeTx,myConstant.nodeTxPk,myConstant.contract,teks);
-////            sendPOST("http://127.0.0.1:5000/set_message", postParams);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-    }
     private static String sendGET(String reqlink) throws IOException {
 
         String responMsg = "empty";

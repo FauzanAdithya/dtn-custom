@@ -317,7 +317,7 @@ public class EventLogPanel extends JPanel
 
 
 		if (firstDelivery) {
-			if(pesan.length() > 3){
+			if(pesan.length() > 2){
 				String postParams = CustomFunctions.getContract(myConstant.nodeRx, pesan);
 
 				try {

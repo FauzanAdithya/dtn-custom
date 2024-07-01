@@ -1,0 +1,115 @@
+# Default settings for the simulation
+
+## Scenario settings
+Scenario.simulateConnections = true
+Scenario.updateInterval = 1.0
+
+Scenario.nrofHostGroups = 2
+
+
+# "Wifi Portable" interface for all nodes
+wpInterface.type = SimpleBroadcastInterface
+# Transmit speed of 72.2 Mbps = 9.025MBps
+wpInterface.transmitSpeed = 9M
+wpInterface.transmitRange = 100
+
+#UAV
+droneInterface.type = SimpleBroadcastInterface
+droneInterface.transmitSpeed = 2M
+droneInterface.transmitRange = 2000
+
+############################### Common settings for all groups
+Scenario.name = 3_Blockchain - 60-90 km/h - 500 Nodes - DirectDeliveryRouter - 43200
+Scenario.endTime = 43200
+#Scenario.endTime = 21600
+#Scenario.endTime = 10800
+Group.router = DirectDeliveryRouter
+Group.bufferSize = 5M
+Group1.nrofHosts = 490
+Group2.nrofHosts = 10
+Group.speed = 16.67, 25
+#########################
+#EpidemicRouter
+#SprayAndWaitRouter
+#MaxPropRouter
+#FirstContactRouter
+#DirectDeliveryRouter
+##############
+#20-35 km/h = 5.56  - 9.72 m/s
+#35-60 km/h = 9.72  - 16.67 m/s
+#60-90 km/h = 16.67 - 25 m/s
+#############
+
+# All nodes have the bluetooth interface
+Group1.movementModel = MapBasedMovement
+Group2.movementModel = RandomWaypoint
+
+Group.nrofInterfaces = 1
+Group.interface1 = wpInterface
+
+Group2.nrofInterfaces = 2
+Group2.interface1 = wpInterface
+Group2.interface2 = droneInterface
+
+#mencari setting bluetooth
+# Walking speeds
+#Group.speed = 0.5, 1.5
+# Message TTL of 300 minutes (5 hours)
+Group.msgTtl = 15
+#Group.nrofHosts = 100
+Group1.groupID = n
+Group2.groupID = d
+
+#############################
+## Message creation parameters
+Events.nrof = 1
+Events1.class = MessageEventGenerator
+Events1.interval = 110,120
+Events1.size = 500k,1M
+Events1.hosts = 0,500
+Events1.prefix = M
+
+#####################################
+## Movement model settings
+MovementModel.rngSeed = 2
+MovementModel.worldSize = 8500, 8500
+
+
+MapBasedMovement.nrofMapFiles = 1
+#MapBasedMovement.mapFile1 = data/belajar21.wkt
+MapBasedMovement.mapFile1 = data/Bandung.wkt
+
+SprayAndWaitRouter.nrofCopies = 330
+SprayAndWaitRouter.binaryMode = true
+
+## Reports - all report names have to be valid report classes
+# how many reports to load
+Report.nrofReports = 3
+Report.reportDir = reports/Revisi_Tesis1/Bab42/Speed
+#Report.reportDir = reports/Revisi_Tesis1/Bab42/Nodes
+
+#Report.reportDir = reports/Persiapan Tesis/Eksperimen/Buffer Size
+#Report.reportDir = reports/Persiapan Tesis/Buffer Size
+#Report.reportDir = reports/Persiapan Tesis/Eksperimen
+# Report classes to load
+Report.report1 = MessageStatsReport
+Report.report2 = EventLogReport
+Report.report3 = MessageReport
+
+## Optimization settings -- these affect the speed of the simulation
+## see World class for details.
+Optimization.cellSizeMult = 6
+Optimization.randomizeUpdateOrder = true
+
+## GUI settings
+# GUI underlay image settings
+GUI.UnderlayImage.fileName = data/Tel-U.png
+# Image offset in pixels (x, y)
+GUI.UnderlayImage.offset = 64, 20
+# Scaling factor for the image
+GUI.UnderlayImage.scale = 4.75
+# Image rotation (radians)
+GUI.UnderlayImage.rotate = -0.015
+
+# how many events to show in the log panel (default = 30)
+GUI.EventLogPanel.nrofEvents = 100
